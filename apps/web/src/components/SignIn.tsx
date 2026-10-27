@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase, supabaseConfigured } from '../lib/supabase';
 
 export function SignIn() {
   const [email, setEmail] = useState('');
@@ -20,6 +20,12 @@ export function SignIn() {
     <main className="center">
       <form className="card stack" onSubmit={submit}>
         <h1>Sign in</h1>
+        {!supabaseConfigured && (
+          <p className="error">
+            Supabase isn't configured. Add SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY to the .env at the repo root, then
+            restart the web app.
+          </p>
+        )}
         <label>
           Email
           <input type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} />

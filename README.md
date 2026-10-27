@@ -22,8 +22,7 @@ Requires Node 22+.
 
 ```powershell
 npm install
-Copy-Item apps/api/.dev.vars.example apps/api/.dev.vars
-Copy-Item apps/web/.env.example apps/web/.env.local
+Copy-Item .env.example .env
 # fill in the Supabase URL and keys, run sql/001 in Supabase, bootstrap an org (sql/README.md)
 npm run dev:api
 npm run dev:web

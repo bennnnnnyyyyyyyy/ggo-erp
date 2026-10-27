@@ -5,11 +5,11 @@ import { HttpError, NotConfiguredError } from '../lib/errors';
 
 const jwksCache = new Map<string, ReturnType<typeof createRemoteJWKSet>>();
 
-function jwksFor(supabaseUrl: string) {
-  let jwks = jwksCache.get(supabaseUrl);
+function jwksFor(jwksUrl: string) {
+  let jwks = jwksCache.get(jwksUrl);
   if (!jwks) {
-    jwks = createRemoteJWKSet(new URL('/auth/v1/.well-known/jwks.json', supabaseUrl));
-    jwksCache.set(supabaseUrl, jwks);
+    jwks = createRemoteJWKSet(new URL(jwksUrl));
+    jwksCache.set(jwksUrl, jwks);
   }
   return jwks;
 }
@@ -24,7 +24,8 @@ export const requireAuth = createMiddleware<AppEnv>(async (c, next) => {
   if (!supabaseUrl) throw new NotConfiguredError('Supabase');
 
   try {
-    const { payload } = await jwtVerify(token, jwksFor(supabaseUrl), {
+    const jwksUrl = c.env.SUPABASE_JWKS_URL || new URL('/auth/v1/.well-known/jwks.json', supabaseUrl).toString();
+    const { payload } = await jwtVerify(token, jwksFor(jwksUrl), {
       issuer: new URL('/auth/v1', supabaseUrl).toString(),
       audience: 'authenticated',
     });

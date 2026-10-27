@@ -73,9 +73,8 @@ planned (see the [Master Plan](../plans/MASTER_PLAN.md), phase 1).
 
 ```powershell
 npm install
-Copy-Item apps/api/.dev.vars.example apps/api/.dev.vars   # fill in values
-Copy-Item apps/web/.env.example apps/web/.env.local        # fill in values
-npm run dev:api    # http://localhost:8787
+Copy-Item .env.example .env    # one file for both apps; fill in from Supabase > Project Settings > API Keys
+npm run dev:api    # http://localhost:8787 (wrangler dev --env-file ../../.env)
 npm run dev:web    # http://localhost:5173
 npm run typecheck
 npm test

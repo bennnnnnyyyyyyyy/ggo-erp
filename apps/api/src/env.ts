@@ -4,7 +4,8 @@ export type Bindings = {
   APP_ENV: string;
   ALLOWED_ORIGINS: string;
   SUPABASE_URL?: string;
-  SUPABASE_SERVICE_ROLE_KEY?: string;
+  SUPABASE_SECRET_KEY?: string;
+  SUPABASE_JWKS_URL?: string;
 };
 
 export type AuthUser = { id: string; email: string };

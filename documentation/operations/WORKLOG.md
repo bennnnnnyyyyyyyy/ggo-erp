@@ -10,6 +10,16 @@ gets an entry with these four headings:
 
 ---
 
+## 2026-10-27 — Local apps connected to the Supabase project
+
+**Objective.** Get the local app past "Failed to fetch" using the Supabase project Ben created (ref `plhuuhcpvlytozyedamt`).
+
+**Actions Completed.** Both apps now read the one git-ignored `.env` at the repo root: `apps/api` via `wrangler dev --env-file ../../.env`; `apps/web` via `vite.config.ts`, which hands the browser only `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`. The API's secret is renamed `SUPABASE_SECRET_KEY` (new Supabase key naming) and honours an optional `SUPABASE_JWKS_URL`. Added `.env.example`; the sign-in page says when Supabase isn't configured. Added `@types/node` to the web app for the config file.
+
+**Database / System Result.** Read-only checks only: auth health 200, JWKS 200, `public.organizations` does not exist yet (`sql/001` not run). The Supabase connector has no permission on this project, so no SQL was run by the agent.
+
+**Safety Status.** Typecheck clean; tests 8/8. `.env` is git-ignored and its values were never printed. Still needed (manual): run `sql/001` in the SQL Editor, create the owner user, run `bootstrap_organization`.
+
 ## 2026-10-27 — Discovery answers and draft MVP plan
 
 **Objective.** Plan the product layout and the internal MVP before building more, and give management an ETA.
