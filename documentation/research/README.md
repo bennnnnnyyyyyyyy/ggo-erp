@@ -35,6 +35,10 @@ a module plan from it without going back to the system.
 
 | System | Slug | What it covers | Teardown status | Feeds plan(s) |
 |---|---|---|---|---|
-| _(none yet: waiting for the list)_ | | | | |
+| Odoo | `odoo` | Overall layout, app model, CRM | Not started | [MVP_PLAN](../plans/MVP_PLAN.md) |
+| HubSpot CRM | `hubspot-crm` | CRM | Not started | [MVP_PLAN](../plans/MVP_PLAN.md) |
+| Clockify | `clockify` | Time & attendance | Not started | [MVP_PLAN](../plans/MVP_PLAN.md) |
+
+More candidates per module, with free-access notes, are in [MVP_PLAN.md section 3](../plans/MVP_PLAN.md#3-systems-to-study-free-sign-ups).
 
 Status values: `Not started`, `In progress`, `Complete`, `Parked`.

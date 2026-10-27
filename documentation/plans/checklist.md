@@ -10,7 +10,7 @@
 | ✅ Live | none |
 | 🟡 In progress | [MASTER_PLAN.md](MASTER_PLAN.md), phase 0 (scaffold) |
 | 📋 Approved / ready | none |
-| 📝 Draft / RFC | [MASTER_PLAN.md](MASTER_PLAN.md), [ADR-0001](../architecture/decisions/ADR-0001-stack.md), [ADR-0002](../architecture/decisions/ADR-0002-multi-tenancy.md) |
+| 📝 Draft / RFC | [MVP_PLAN.md](MVP_PLAN.md) (awaiting Ben + management), [MASTER_PLAN.md](MASTER_PLAN.md), [ADR-0001](../architecture/decisions/ADR-0001-stack.md), [ADR-0002](../architecture/decisions/ADR-0002-multi-tenancy.md) |
 | 💡 Backlog | none |
 
 ## Detail

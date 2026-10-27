@@ -10,6 +10,16 @@ gets an entry with these four headings:
 
 ---
 
+## 2026-10-27 — Discovery answers and draft MVP plan
+
+**Objective.** Plan the product layout and the internal MVP before building more, and give management an ETA.
+
+**Actions Completed.** Added `documentation/planning/2026-10-27-discovery-questions.md` (answered in part by Ben) and `documentation/plans/MVP_PLAN.md` (draft): assumed defaults for unanswered questions, free systems to study, module map, app shell and four standard views, customization levels, code conventions, MVP scope (Core + CRM + Time & attendance + dashboards), milestones (9–12 weeks full time) and open questions. Linked it from `plans/README.md`, `checklist.md`, `MASTER_PLAN.md` and the research index. Documentation only.
+
+**Database / System Result.** None.
+
+**Safety Status.** No code, schema or data touched. Awaiting approval from Ben and management, and answers to MVP_PLAN section 10.
+
 ## 2026-10-27 — Repository scaffold
 
 **Objective.** Set up the ERP repository so modules can be built from reverse-engineering

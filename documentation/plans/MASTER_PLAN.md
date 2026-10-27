@@ -3,9 +3,12 @@
 **Status:** `[📝 Draft / RFC]` · **Last updated:** 2026-10-27
 **Live status per item:** [`checklist.md`](checklist.md)
 
-The phases below get the ERP from scaffold to a product another company could buy. The
-**module list in phase 2 is a placeholder**: it will be set by the list of systems we are asked
-to reverse engineer (see [`../research/README.md`](../research/README.md)).
+The phases below get the ERP from scaffold to a product another company could buy.
+
+> **The internal MVP is planned in [`MVP_PLAN.md`](MVP_PLAN.md)**: layout, module map, MVP
+> scope (Core + CRM + Time & attendance + dashboards), milestones and ETA. Where this file and
+> the MVP plan differ, the MVP plan is newer. This file will be rewritten once the MVP plan is
+> approved.
 
 ## Phase 0: Scaffold `[🟡 In Progress]`
 
