@@ -10,6 +10,16 @@ gets an entry with these four headings:
 
 ---
 
+## 2026-10-27 — sql/001 applied and first organization bootstrapped
+
+**Objective.** Let Ben sign in: the account existed but belonged to no organization.
+
+**Actions Completed.** Ben ran `sql/001_tenancy_core.sql` in the SQL Editor and created the Auth user `bd@prime-ad.com`. At Ben's request the agent then called `bootstrap_organization('GG Outsourcing', 'gg-outsourcing', 'bd@prime-ad.com')` over the REST RPC endpoint with the project's secret key.
+
+**Database / System Result.** Project `plhuuhcpvlytozyedamt`: one organization (GG Outsourcing, `6e5ca4f3-ca9a-4e1b-b8b9-2952ead68f8f`), one membership (owner), one `organization.created` audit row. `sql/001` status: **Run (live)**.
+
+**Safety Status.** Insert-only, through the sanctioned bootstrap function. Sign-in through the browser still to be confirmed by Ben.
+
 ## 2026-10-27 — Local apps connected to the Supabase project
 
 **Objective.** Get the local app past "Failed to fetch" using the Supabase project Ben created (ref `plhuuhcpvlytozyedamt`).
