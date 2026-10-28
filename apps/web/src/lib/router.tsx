@@ -1,4 +1,4 @@
-import { useEffect, useState, type AnchorHTMLAttributes, type MouseEvent } from 'react';
+import { createContext, useContext, useEffect, useState, type AnchorHTMLAttributes, type MouseEvent } from 'react';
 
 // A minimal history-API router: the app only needs "which path am I on" and "go to a path".
 
@@ -22,6 +22,13 @@ export function usePath(): string {
     };
   }, []);
   return path;
+}
+
+/** Values of `:name` segments in the current page's path. */
+export const ParamsContext = createContext<Record<string, string>>({});
+
+export function useParam(name: string): string {
+  return useContext(ParamsContext)[name] ?? '';
 }
 
 export function Link({ to, onClick, ...rest }: AnchorHTMLAttributes<HTMLAnchorElement> & { to: string }) {

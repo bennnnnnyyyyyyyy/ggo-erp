@@ -25,6 +25,7 @@ project, and the run is then logged in
 |---|---|---|
 | `001_tenancy_core.sql` | `organizations`, `memberships`, `org_modules`, append-only `audit_log`, `is_org_member()`, RLS, `bootstrap_organization()` | **Run 2026-10-27** on `plhuuhcpvlytozyedamt` (by Ben, SQL Editor); GGO bootstrapped (renamed from GG Outsourcing 2026-10-28) |
 | `002_core_user_lookup.sql` | `find_auth_user_id(email)` for adding existing accounts to an org; service role only | **Run 2026-10-28** on `plhuuhcpvlytozyedamt` (by Ben, SQL Editor); verified: only service_role can execute |
+| `003_crm_and_activities.sql` | CRM tables (stages, companies, contacts, deals) and core `activities`; composite same-org foreign keys; RLS read | **Written 2026-10-28, not run.** Needed before switching on CRM |
 
 ## After 001: creating the first organization
 
