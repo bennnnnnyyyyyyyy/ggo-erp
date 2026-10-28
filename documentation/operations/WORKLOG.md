@@ -10,6 +10,31 @@ gets an entry with these four headings:
 
 ---
 
+## 2026-10-28 — Owner account email corrected
+
+**Objective.** The owner account was created as `bd@prime-ad.com`, which is not a real mailbox, so it could never receive a reset link. Ben asked for it to be deleted or changed to `ben@prime-ad.com`.
+
+**Actions Completed.** Changed rather than deleted (deletion is blocked by the owner membership and audit references, and would orphan them). At Ben's request the agent called the Auth admin API `PUT /auth/v1/admin/users/6c11936c-d114-443b-aa4a-18719b63bd01` with `email = ben@prime-ad.com`, `email_confirm = true`, after confirming it was the only user and the new address was unused.
+
+**Database / System Result.** Project `plhuuhcpvlytozyedamt`: user `6c11936c-…bd01` now `ben@prime-ad.com`, confirmed. Same user id, so the GG Outsourcing owner membership is unchanged (verified). The password was not changed.
+
+**Safety Status.** Single-row update to one verified user. No audit row written (Auth admin change, outside the app). Ben still needs to set a password through the reset flow.
+
+## 2026-10-28 — Password reset flow in the web app
+
+**Objective.** Ben's sign-in failed with "Invalid login credentials" and the app had no way to reset a password. Deleting the user in the dashboard also failed ("Database error deleting user").
+
+**Actions Completed.**
+- Read-only check of the Auth admin API: `bd@prime-ad.com` exists, is confirmed and not banned, and last signed in successfully 2026-10-27 20:23 UTC, so the failure is a wrong password, not configuration.
+- `apps/web/src/components/SignIn.tsx`: "Forgot password?" mode that calls `resetPasswordForEmail` with `redirectTo` set to the app's origin; same message whether or not the account exists; shows expired-link errors.
+- `apps/web/src/components/SetPassword.tsx` (new): set and confirm a new password on the recovery session (`updateUser`).
+- `apps/web/src/lib/supabase.ts`: detects `type=recovery` / `error_description` in the URL hash before the client strips it. `apps/web/src/App.tsx`: shows `SetPassword` when arriving from a recovery link or on the `PASSWORD_RECOVERY` event.
+- The failed delete is expected: `memberships.user_id`, `org_modules.enabled_by` and `audit_log.actor_user_id` reference `auth.users` with no cascade, so Postgres refuses to delete a user who owns an org or appears in the append-only audit log. Not changed; the owner account should be reset, not deleted.
+
+**Database / System Result.** None changed. Read-only Auth admin query only.
+
+**Safety Status.** `npm run typecheck` clean; `npm test` passing (shared 4, api 4). Reset flow not yet tested in the browser. Manual: add `http://localhost:5173` to Supabase Auth > URL Configuration > Redirect URLs; the built-in mailer only delivers to members of the Supabase org team and is heavily rate-limited, so real use needs custom SMTP.
+
 ## 2026-10-27 — sql/001 applied and first organization bootstrapped
 
 **Objective.** Let Ben sign in: the account existed but belonged to no organization.

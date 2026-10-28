@@ -30,6 +30,7 @@ The live path is a Cloudflare Worker API in `apps/api/` and a React frontend in 
 - Preserve append-only audit behavior. Prefer reviewed SQL migrations and local verification before any production schema change. Migrations are numbered, rerun-safe, and end with read-only verification queries.
 - Do not use automated browser testing. Give the user the URL and ask them to test manually.
 - Keep secrets out of source, logs, plans and worklogs. Do not modify `.env`, `.dev.vars`, deployed secrets or production data unless explicitly asked.
+- Never author a commit, finish work then i will handle the commit and pushing to main
 
 ## Repository boundaries
 
