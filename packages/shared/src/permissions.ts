@@ -1,5 +1,5 @@
 import type { Role } from './api';
-import { allPermissionKeys } from './modules';
+import { MODULES, allPermissionKeys } from './modules';
 
 // Default grants per built-in role. Organizations can later add custom roles in the
 // database; these are the fallback when a membership has no custom role.
@@ -10,7 +10,7 @@ export function defaultPermissionsFor(role: Role): string[] {
     case 'admin':
       return all;
     case 'member':
-      return all.filter((p) => !p.endsWith('.manage'));
+      return [...all.filter((p) => !p.endsWith('.manage')), ...MODULES.flatMap((m) => m.memberGrants ?? [])];
     case 'viewer':
       return all.filter((p) => p.endsWith('.read'));
   }

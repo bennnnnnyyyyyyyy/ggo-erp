@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, usePath } from '../lib/router';
+import { Link, ParamsContext, usePath } from '../lib/router';
+import { GlobalSearch } from './GlobalSearch';
 import { resolveRoute, visibleApps } from '../modules/registry';
 import { Home } from '../modules/core/Home';
 import { useSession } from '../session';
@@ -83,16 +84,18 @@ export function Shell({ onSwitchOrg, onSignOut }: { onSwitchOrg: () => void; onS
         <span className="topbar-org">{session.org?.name}</span>
         {route && <span className="topbar-app">/ {route.app.name}</span>}
         <span className="spacer" />
+        {session.modules.includes('crm') && <GlobalSearch />}
         <UserMenu onSwitchOrg={onSwitchOrg} onSignOut={onSignOut} />
       </header>
 
       {route && (
         <nav className={drawerOpen ? 'sidebar open' : 'sidebar'} aria-label={`${route.app.name} pages`}>
           <div className="nav-heading">{route.app.name}</div>
-          {route.app.pages.map((p) => {
+          {route.app.pages.filter((p) => p.nav !== false).map((p) => {
             const to = route.app.basePath + p.path;
+            const active = p === route.page || route.page?.parent === p.path;
             return (
-              <Link key={to} to={to} className={p === route.page ? 'nav-item active' : 'nav-item'}>
+              <Link key={to} to={to} className={active ? 'nav-item active' : 'nav-item'}>
                 {p.label}
               </Link>
             );
@@ -104,7 +107,9 @@ export function Shell({ onSwitchOrg, onSignOut }: { onSwitchOrg: () => void; onS
         {atHome ? (
           <Home apps={apps} />
         ) : Page ? (
-          <Page />
+          <ParamsContext.Provider value={route.params}>
+            <Page key={path} />
+          </ParamsContext.Provider>
         ) : (
           <section>
             <h1>Page not found</h1>

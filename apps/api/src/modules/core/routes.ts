@@ -4,13 +4,18 @@ import type { AppEnv } from '../../env';
 import { db } from '../../lib/db';
 import { ok } from '../../lib/response';
 import { requirePermission } from '../../middleware/tenant';
+import { activityRoutes, timelineRoutes } from './activityRoutes';
 import { memberRoutes } from './memberRoutes';
+import { moduleRoutes } from './moduleRoutes';
 import { orgRoutes } from './org';
 
 export const coreRoutes = new Hono<AppEnv>();
 
 coreRoutes.route('/org', orgRoutes);
 coreRoutes.route('/members', memberRoutes);
+coreRoutes.route('/modules', moduleRoutes);
+coreRoutes.route('/activities', activityRoutes);
+coreRoutes.route('/timeline', timelineRoutes);
 
 coreRoutes.get('/session', (c) => {
   const { user, tenant } = c.var;

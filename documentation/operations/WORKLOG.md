@@ -10,6 +10,21 @@ gets an entry with these four headings:
 
 ---
 
+## 2026-10-28 — CRM (M2) and M1 slice 2 building blocks
+
+**Objective.** Ben asked for a working MVP and to keep building, parking decisions. Built the CRM with the shared record page, timeline, board and search it needs.
+
+**Actions Completed.**
+- Plans: new `documentation/plans/CRM_PLAN.md` (defaults; open questions in section 11); new `documentation/planning/INPUT_NEEDED.md` collecting every question for Ben.
+- `sql/003_crm_and_activities.sql` (new, not run): `crm_pipeline_stages`, `crm_companies`, `crm_contacts`, `crm_deals`, core `activities`; composite `(org_id, id)` foreign keys so records can't link across orgs; RLS read for members, writes only via the API.
+- Shared: `fields.ts` (field definitions + `validateRecord`, money input helpers), `crm.ts` (record types, field lists, default stages, `closedAtFor`), CRM module manifest with `memberGrants` (members may manage CRM records), activity and timeline types. Tests in `fields.test.ts`.
+- API: `lib/resource.ts` generic org-scoped CRUD (validation, same-org reference checks, soft delete, audit with before/after); `modules/crm/routes.ts` (companies, contacts, deals, stages, search; stage delete refused while it holds deals; won/lost stages set `closed_at`); core `activityRoutes.ts` (activities, "my tasks", timeline merging activities with audit history) and `moduleRoutes.ts` (switch modules on/off; CRM seeds the default pipeline).
+- Web: path parameters in the router; shared `RecordPage`, `RecordForm`, `Timeline`, `BoardView`, `Modal`, field inputs/values; CRM app (deals board + list, companies, contacts, record pages with related lists, pipeline settings); Settings → Apps; "My tasks" on home; top-bar search (Ctrl+K).
+
+**Database / System Result.** None. `sql/003` written, not run.
+
+**Safety Status.** `npm run typecheck` clean; `npm test` 23/23 (shared 12, api 11). Not browser-tested. Manual: run `sql/003` and its checks, then Settings → Apps → switch on CRM, then click through.
+
 ## 2026-10-28 — sql/002 applied
 
 **Objective.** Enable inviting people from Settings → Users.
