@@ -1,6 +1,6 @@
 # Internal MVP Plan
 
-**Status:** `[📝 Draft / RFC]` · **Created:** 2026-10-27 · **Owner:** Ben Arthur
+**Status:** `[📋 Approved]` 2026-10-28 by Ben · **Created:** 2026-10-27 · **Owner:** Ben Arthur
 **Source:** [discovery answers](../planning/2026-10-27-discovery-questions.md) · **Roadmap:** [MASTER_PLAN.md](MASTER_PLAN.md)
 
 This plan sets out how the ERP is laid out and what the first internal version (the MVP)
@@ -47,7 +47,7 @@ Each one can be changed; most cost little to change now and a lot to change late
 | A6 | Outsourced staff log in (Q17) | **Yes, for time tracking**: they clock in and log hours themselves | Time tracking is rank 3; it's useless if only managers can enter time |
 | A7 | Permissions (Q18) | Roles, plus "see own / own team / everything" on CRM records and timesheets | Common need in CX teams (agents vs leads vs managers) |
 | A8 | Environments (Q49) | **Separate staging and production** Supabase projects from day one | Cheap now, painful to add later |
-| A9 | Stack (Q58–60) | Keep: Hono on Cloudflare Workers, React + Vite, Supabase | Same as Prospector; you confirmed the monorepo |
+| A9 | Stack (Q58–60) | Keep: Hono on Cloudflare Workers, React + Vite, Supabase | You confirmed the monorepo; approved with this plan |
 | A10 | Tenancy (Q61–64) | Keep: one database, `org_id` on every row, modules switched on per org | Needed to sell later; see [ADR-0002](../architecture/decisions/ADR-0002-multi-tenancy.md) |
 | A11 | Keep the scaffold (Q68) | **Keep it.** It already covers sign-in, organizations and the module switch | Saves about a week |
 | A12 | Light/dark (Q46) | Both, following the device setting | Already in the scaffold's styles |
@@ -272,5 +272,5 @@ usable CRM that can replace the client spreadsheets.
 
 | Who | Decision | Date |
 |---|---|---|
-| Ben Arthur | | |
+| Ben Arthur | Approved, start M1 | 2026-10-28 |
 | Management | | |

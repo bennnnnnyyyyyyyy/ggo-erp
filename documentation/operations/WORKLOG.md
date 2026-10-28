@@ -10,6 +10,76 @@ gets an entry with these four headings:
 
 ---
 
+## 2026-10-28 — sql/002 applied
+
+**Objective.** Enable inviting people from Settings → Users.
+
+**Actions Completed.** Ben ran `sql/002_core_user_lookup.sql` in the SQL Editor.
+
+**Database / System Result.** Project `plhuuhcpvlytozyedamt`: `public.find_auth_user_id(text)` created. Verification query 2: anon false, authenticated false, service_role true (as intended). `sql/002` status: **Run (live)**.
+
+**Safety Status.** Function only; no tables or data touched. Ben also saved settings on Authentication → OAuth Server (the page that makes Supabase an identity provider for other apps). The ERP does not use it; recommended turning it back off. Site URL is `http://localhost:5173`, which also covers invite and reset redirects locally.
+
+## 2026-10-28 — MVP plan approved; M1 core platform, slice 1
+
+**Objective.** Ben approved the MVP plan and asked for M1 to start. He also clarified that DME Desk Prospector only supplied the agent instructions and skills, not the design.
+
+**Actions Completed.**
+- Docs: `MVP_PLAN.md` marked approved; ADR-0001 and ADR-0002 accepted, with the Prospector framing removed from ADR-0001 and MVP_PLAN A9 and a note added to the discovery questions; new `documentation/plans/CORE_PLAN.md` (M1, two slices); `plans/README.md` and `checklist.md` updated.
+- `sql/002_core_user_lookup.sql` (new, not run): `find_auth_user_id(email)`, security definer, service role only.
+- Shared (`packages/shared`): `core.org.read` permission; `core.ts` with `OrgSettings`, `Member`, `InviteResult`, `AuditEntry`, `ROLES`, `DATE_FORMATS`; the session's `org` now carries currency, time zone and date format.
+- API (`apps/api`): `lib/audit.ts` (`writeAudit`), `lib/body.ts`; `modules/core/org.ts` (GET/PATCH `/v1/core/org`); `modules/core/memberRoutes.ts` (list, invite, change role, disable/enable, new invite link); `modules/core/members.ts` holds the role rules (only owners touch owners, no self-changes, always one active owner). Invites return a link generated with `auth.admin.generateLink` instead of emailing, because the built-in mailer only reaches the Supabase team. A new link can only be made for an account this org created that has never signed in (stops one org's admin taking over another org's user). Every change writes `audit_log`. Tests in `test/core.test.ts`.
+- Web (`apps/web`): history router (`lib/router.tsx`); new shell with a top bar (Apps, org, user menu), per-app sidebar and phone drawer; app home with tiles grouped by suite (`modules/core/Home.tsx`); app registry (`modules/registry.tsx`); Settings → General, Users, Audit log; shared `components/views/ListView.tsx` (search, sort, CSV export); dates shown in the org's time zone and format (`lib/format.ts`); invite links land on "Choose a password"; optional "Continue with Google" behind `AUTH_GOOGLE_ENABLED`; a user with one org skips the org picker. Removed `CoreHome.tsx`.
+
+**Database / System Result.** None. `sql/002` written, not run. No schema or data changes in this entry.
+
+**Safety Status.** `npm run typecheck` clean; `npm test` 15/15 (shared 4, api 11). Not browser-tested. Known: `npm run build -w apps/web` fails because npm runs scripts in Windows PowerShell 5, which rejects `&&` (existing script, not changed here). Manual steps: run `sql/002` in the SQL Editor; add `http://localhost:5173` to Supabase Auth Redirect URLs; then click through the app.
+
+## 2026-10-28 — Organization renamed to GGO; local API started
+
+**Objective.** The company is GGO (Gulf Global Outsourcing), not "GG Outsourcing". Ben's sign-in also showed "Failed to fetch".
+
+**Actions Completed.** At Ben's request, PATCHed `organizations` row `6e5ca4f3-…8f8f` to `name = 'GGO'`, `slug = 'ggo'` over the REST API, and inserted an `organization.updated` row in `audit_log` with before/after values. Replaced "GG Outsourcing" with "GGO" in `agents.md`, `README.md`, `sql/README.md`, both ADRs, the discovery questions, `MODULE_PLAN_TEMPLATE.md` and `research/README.md` (older worklog entries left as history). "Failed to fetch" was the local API not running (nothing on port 8787); started it with `npm run dev:api`.
+
+**Database / System Result.** Project `plhuuhcpvlytozyedamt`: organization now GGO / `ggo`, same id; audit row id 2. No schema change.
+
+**Safety Status.** Single-row update to a verified target plus one append-only audit insert. Both apps must be running locally (`npm run dev:api` and `npm run dev:web`) for sign-in to work.
+
+## 2026-10-28 — Owner account email corrected
+
+**Objective.** The owner account was created as `bd@prime-ad.com`, which is not a real mailbox, so it could never receive a reset link. Ben asked for it to be deleted or changed to `ben@prime-ad.com`.
+
+**Actions Completed.** Changed rather than deleted (deletion is blocked by the owner membership and audit references, and would orphan them). At Ben's request the agent called the Auth admin API `PUT /auth/v1/admin/users/6c11936c-d114-443b-aa4a-18719b63bd01` with `email = ben@prime-ad.com`, `email_confirm = true`, after confirming it was the only user and the new address was unused.
+
+**Database / System Result.** Project `plhuuhcpvlytozyedamt`: user `6c11936c-…bd01` now `ben@prime-ad.com`, confirmed. Same user id, so the GG Outsourcing owner membership is unchanged (verified). The password was not changed.
+
+**Safety Status.** Single-row update to one verified user. No audit row written (Auth admin change, outside the app). Ben still needs to set a password through the reset flow.
+
+## 2026-10-28 — Password reset flow in the web app
+
+**Objective.** Ben's sign-in failed with "Invalid login credentials" and the app had no way to reset a password. Deleting the user in the dashboard also failed ("Database error deleting user").
+
+**Actions Completed.**
+- Read-only check of the Auth admin API: `bd@prime-ad.com` exists, is confirmed and not banned, and last signed in successfully 2026-10-27 20:23 UTC, so the failure is a wrong password, not configuration.
+- `apps/web/src/components/SignIn.tsx`: "Forgot password?" mode that calls `resetPasswordForEmail` with `redirectTo` set to the app's origin; same message whether or not the account exists; shows expired-link errors.
+- `apps/web/src/components/SetPassword.tsx` (new): set and confirm a new password on the recovery session (`updateUser`).
+- `apps/web/src/lib/supabase.ts`: detects `type=recovery` / `error_description` in the URL hash before the client strips it. `apps/web/src/App.tsx`: shows `SetPassword` when arriving from a recovery link or on the `PASSWORD_RECOVERY` event.
+- The failed delete is expected: `memberships.user_id`, `org_modules.enabled_by` and `audit_log.actor_user_id` reference `auth.users` with no cascade, so Postgres refuses to delete a user who owns an org or appears in the append-only audit log. Not changed; the owner account should be reset, not deleted.
+
+**Database / System Result.** None changed. Read-only Auth admin query only.
+
+**Safety Status.** `npm run typecheck` clean; `npm test` passing (shared 4, api 4). Reset flow not yet tested in the browser. Manual: add `http://localhost:5173` to Supabase Auth > URL Configuration > Redirect URLs; the built-in mailer only delivers to members of the Supabase org team and is heavily rate-limited, so real use needs custom SMTP.
+
+## 2026-10-27 — sql/001 applied and first organization bootstrapped
+
+**Objective.** Let Ben sign in: the account existed but belonged to no organization.
+
+**Actions Completed.** Ben ran `sql/001_tenancy_core.sql` in the SQL Editor and created the Auth user `bd@prime-ad.com`. At Ben's request the agent then called `bootstrap_organization('GG Outsourcing', 'gg-outsourcing', 'bd@prime-ad.com')` over the REST RPC endpoint with the project's secret key.
+
+**Database / System Result.** Project `plhuuhcpvlytozyedamt`: one organization (GG Outsourcing, `6e5ca4f3-ca9a-4e1b-b8b9-2952ead68f8f`), one membership (owner), one `organization.created` audit row. `sql/001` status: **Run (live)**.
+
+**Safety Status.** Insert-only, through the sanctioned bootstrap function. Sign-in through the browser still to be confirmed by Ben.
+
 ## 2026-10-27 — Local apps connected to the Supabase project
 
 **Objective.** Get the local app past "Failed to fetch" using the Supabase project Ben created (ref `plhuuhcpvlytozyedamt`).

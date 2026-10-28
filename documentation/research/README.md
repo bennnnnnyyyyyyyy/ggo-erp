@@ -11,7 +11,7 @@ a module plan from it without going back to the system.
 - **Record behavior, not code.** Capture screens, fields, workflows, rules and reports in our own
   words. Do not copy source code, scripts, stylesheets, images, logos, icon sets, or marketing
   and help-text copy into this repo. Do not download or vendor their bundles.
-- **Use only access we are entitled to**: public pages, trial accounts, or accounts GG Outsourcing
+- **Use only access we are entitled to**: public pages, trial accounts, or accounts GGO
   already holds. Respect each system's terms of service. No credential sharing, scraping behind
   logins, or probing of APIs beyond normal use.
 - **Screenshots are for internal reference only.** Keep them in the system's `screenshots/`

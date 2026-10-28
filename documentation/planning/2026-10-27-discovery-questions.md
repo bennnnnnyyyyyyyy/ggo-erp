@@ -1,6 +1,7 @@
 # Discovery Questions: ERP Layout and Scope
 
 **Status:** Partly answered (2026-10-27). Turned into [`plans/MVP_PLAN.md`](../plans/MVP_PLAN.md); blanks there are filled with defaults (section 2) · **Created:** 2026-10-27
+**Note (2026-10-28):** DME Desk Prospector was only the source of the agent instructions and skills; the ERP does not follow its design. Mentions of it below are part of the original questions.
 **Purpose:** settle how the ERP is laid out (product, modules, screens, code, hosting) before
 building anything. Answers here become `plans/MASTER_PLAN.md` and the ADRs.
 
@@ -16,7 +17,7 @@ write your own.
 
 ## 1. The business and the goal
 
-1. ⭐ What does GG Outsourcing do day to day? Which departments would use the ERP (ops, finance, HR, sales, recruiting, client services…)?
+1. ⭐ What does GGO do day to day? Which departments would use the ERP (ops, finance, HR, sales, recruiting, client services…)?
    **A:** a General purpose- customizable erp, for ggo at the moment, we are a cx / outsourcing / software house, so we would need all of the above in an ERP
 2. ⭐ What problem is this solving right now? (e.g. too many separate tools, paying for subscriptions, spreadsheets, no single view of clients/staff)
    **A:** too many tools, hate spreadsheets
@@ -73,7 +74,7 @@ write your own.
     **A:** 5 sim max, 15ish total
 15. What kinds of users are there? (e.g. owner, managers, finance, team leads, agents/outsourced staff, clients)
     **A:**
-16. Will **clients** of GG Outsourcing ever log in (a client portal to see reports and invoices, approve timesheets)?
+16. Will **clients** of GGO ever log in (a client portal to see reports and invoices, approve timesheets)?
     **A:** i still need to ask
 17. Will outsourced staff log in themselves (clock in, request leave, see payslips), or only office staff?
     **A:**
@@ -101,7 +102,7 @@ write your own.
 
 ## 6. Location, money and rules
 
-27. ⭐ Which countries do GG Outsourcing and its staff and clients operate in?
+27. ⭐ Which countries do GGO and its staff and clients operate in?
     **A:**
 28. Which currencies? Do invoices or payroll ever mix currencies?
     **A:**

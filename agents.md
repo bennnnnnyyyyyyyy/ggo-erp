@@ -1,6 +1,6 @@
 # Agent Instructions — ggo-erp
 
-This repository is the GGO ERP: a modular, multi-tenant ERP. It is built for internal use at GG Outsourcing first and designed from day one to be sold to other companies. Every design choice must survive the question "what happens when a second customer signs up?"
+This repository is the GGO ERP: a modular, multi-tenant ERP. It is built for internal use at GGO (Gulf Global Outsourcing) first and designed from day one to be sold to other companies. Every design choice must survive the question "what happens when a second customer signs up?"
 
 The live path is a Cloudflare Worker API in `apps/api/` and a React frontend in `apps/web/`, sharing types from `packages/shared/`, backed by Supabase Postgres. Migrations live in `sql/`.
 
@@ -17,7 +17,7 @@ The live path is a Cloudflare Worker API in `apps/api/` and a React frontend in 
 ## Multi-tenancy and sellability rules (non-negotiable)
 
 - Every business table has `org_id uuid not null references organizations(id)` and row level security. No exceptions for "internal only" tables.
-- Never hardcode GG Outsourcing names, logos, currencies, time zones, tax rules or workflows. Put them in organization settings or seed data.
+- Never hardcode GGO (Gulf Global Outsourcing) names, logos, currencies, time zones, tax rules or workflows. Put them in organization settings or seed data.
 - Every API route resolves the caller's organization and checks a permission (`requirePermission('module.action')`) before touching data.
 - Modules are switched on per organization (`org_modules`). New features belong to a module; the core stays small.
 - Money is stored as integer minor units (`bigint`) plus an ISO 4217 currency code. Timestamps are `timestamptz` in UTC.
@@ -30,6 +30,7 @@ The live path is a Cloudflare Worker API in `apps/api/` and a React frontend in 
 - Preserve append-only audit behavior. Prefer reviewed SQL migrations and local verification before any production schema change. Migrations are numbered, rerun-safe, and end with read-only verification queries.
 - Do not use automated browser testing. Give the user the URL and ask them to test manually.
 - Keep secrets out of source, logs, plans and worklogs. Do not modify `.env`, `.dev.vars`, deployed secrets or production data unless explicitly asked.
+- Never author a commit, finish work then i will handle the commit and pushing to main
 
 ## Repository boundaries
 
