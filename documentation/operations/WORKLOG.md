@@ -10,6 +10,21 @@ gets an entry with these four headings:
 
 ---
 
+## 2026-10-28 — MVP plan approved; M1 core platform, slice 1
+
+**Objective.** Ben approved the MVP plan and asked for M1 to start. He also clarified that DME Desk Prospector only supplied the agent instructions and skills, not the design.
+
+**Actions Completed.**
+- Docs: `MVP_PLAN.md` marked approved; ADR-0001 and ADR-0002 accepted, with the Prospector framing removed from ADR-0001 and MVP_PLAN A9 and a note added to the discovery questions; new `documentation/plans/CORE_PLAN.md` (M1, two slices); `plans/README.md` and `checklist.md` updated.
+- `sql/002_core_user_lookup.sql` (new, not run): `find_auth_user_id(email)`, security definer, service role only.
+- Shared (`packages/shared`): `core.org.read` permission; `core.ts` with `OrgSettings`, `Member`, `InviteResult`, `AuditEntry`, `ROLES`, `DATE_FORMATS`; the session's `org` now carries currency, time zone and date format.
+- API (`apps/api`): `lib/audit.ts` (`writeAudit`), `lib/body.ts`; `modules/core/org.ts` (GET/PATCH `/v1/core/org`); `modules/core/memberRoutes.ts` (list, invite, change role, disable/enable, new invite link); `modules/core/members.ts` holds the role rules (only owners touch owners, no self-changes, always one active owner). Invites return a link generated with `auth.admin.generateLink` instead of emailing, because the built-in mailer only reaches the Supabase team. A new link can only be made for an account this org created that has never signed in (stops one org's admin taking over another org's user). Every change writes `audit_log`. Tests in `test/core.test.ts`.
+- Web (`apps/web`): history router (`lib/router.tsx`); new shell with a top bar (Apps, org, user menu), per-app sidebar and phone drawer; app home with tiles grouped by suite (`modules/core/Home.tsx`); app registry (`modules/registry.tsx`); Settings → General, Users, Audit log; shared `components/views/ListView.tsx` (search, sort, CSV export); dates shown in the org's time zone and format (`lib/format.ts`); invite links land on "Choose a password"; optional "Continue with Google" behind `AUTH_GOOGLE_ENABLED`; a user with one org skips the org picker. Removed `CoreHome.tsx`.
+
+**Database / System Result.** None. `sql/002` written, not run. No schema or data changes in this entry.
+
+**Safety Status.** `npm run typecheck` clean; `npm test` 15/15 (shared 4, api 11). Not browser-tested. Known: `npm run build -w apps/web` fails because npm runs scripts in Windows PowerShell 5, which rejects `&&` (existing script, not changed here). Manual steps: run `sql/002` in the SQL Editor; add `http://localhost:5173` to Supabase Auth Redirect URLs; then click through the app.
+
 ## 2026-10-28 — Organization renamed to GGO; local API started
 
 **Objective.** The company is GGO (Gulf Global Outsourcing), not "GG Outsourcing". Ben's sign-in also showed "Failed to fetch".

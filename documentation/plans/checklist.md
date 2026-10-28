@@ -1,6 +1,6 @@
 # Plans Execution Status & Checklist
 
-**Last updated:** 2026-10-27
+**Last updated:** 2026-10-28
 **Source of truth for what actually happened:** [`../operations/WORKLOG.md`](../operations/WORKLOG.md)
 
 ## Status overview
@@ -8,16 +8,23 @@
 | Status | Plans |
 |---|---|
 | ✅ Live | none |
-| 🟡 In progress | [MASTER_PLAN.md](MASTER_PLAN.md), phase 0 (scaffold) |
-| 📋 Approved / ready | none |
-| 📝 Draft / RFC | [MVP_PLAN.md](MVP_PLAN.md) (awaiting Ben + management), [MASTER_PLAN.md](MASTER_PLAN.md), [ADR-0001](../architecture/decisions/ADR-0001-stack.md), [ADR-0002](../architecture/decisions/ADR-0002-multi-tenancy.md) |
-| 💡 Backlog | none |
+| 🟡 In progress | [CORE_PLAN.md](CORE_PLAN.md) (M1 slice 1 built locally), [MASTER_PLAN.md](MASTER_PLAN.md) phase 0 |
+| 📋 Approved / ready | [MVP_PLAN.md](MVP_PLAN.md) (approved 2026-10-28), [ADR-0001](../architecture/decisions/ADR-0001-stack.md), [ADR-0002](../architecture/decisions/ADR-0002-multi-tenancy.md) |
+| 📝 Draft / RFC | [MASTER_PLAN.md](MASTER_PLAN.md) (to be rewritten from the MVP plan) |
+| 💡 Backlog | MVP milestones M2 (CRM), M3 (Time & attendance), M4 (Dashboards), M5 (Pilot) |
 
 ## Detail
 
 - [ ] **[MASTER_PLAN.md](MASTER_PLAN.md): Phase 0, Scaffold**
-  - **Done:** repo structure, docs system, research template, API and web skeletons, `sql/001` written (2026-10-27).
-  - **Remaining:** ADR approvals, Supabase project and `sql/001` run, first deploy, CI.
+  - **Done:** repo structure, docs system, API and web skeletons, `sql/001` run on `plhuuhcpvlytozyedamt`, GGO organization bootstrapped, ADRs accepted (2026-10-28).
+  - **Remaining:** separate staging project (A8), web hosting choice, first deploy, CI.
+- [ ] **[MVP_PLAN.md](MVP_PLAN.md) M0: Research & sign-off**
+  - **Done:** plan and ADRs approved (2026-10-28).
+  - **Remaining:** Odoo, HubSpot and Clockify teardowns; staging + production Supabase projects.
+- [ ] **[CORE_PLAN.md](CORE_PLAN.md) M1: Core platform**
+  - **Slice 1 built locally (2026-10-28):** shell with app home and per-app sidebar, Settings → General / Users / Audit log, invites with copyable link, role changes, disable/enable, shared List view, password reset, invite acceptance, optional Google button.
+  - **Waiting on Ben:** run `sql/002`, add redirect URL in Supabase Auth, browser check.
+  - **Slice 2 remaining:** Record page + activity timeline, Board view, Dashboard cards, global search, logo upload, notifications, two-org isolation test.
 
 ## Migrations
 

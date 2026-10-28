@@ -24,6 +24,7 @@ project, and the run is then logged in
 | File | Purpose | Status |
 |---|---|---|
 | `001_tenancy_core.sql` | `organizations`, `memberships`, `org_modules`, append-only `audit_log`, `is_org_member()`, RLS, `bootstrap_organization()` | **Run 2026-10-27** on `plhuuhcpvlytozyedamt` (by Ben, SQL Editor); GGO bootstrapped (renamed from GG Outsourcing 2026-10-28) |
+| `002_core_user_lookup.sql` | `find_auth_user_id(email)` for adding existing accounts to an org; service role only | **Written 2026-10-28, not run.** Needed before inviting anyone from Settings → Users |
 
 ## After 001: creating the first organization
 
