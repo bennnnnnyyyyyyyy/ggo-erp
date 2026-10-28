@@ -12,7 +12,8 @@ the research teardown(s) it came from.
 
 | Document | Focus | Status |
 |---|---|---|
-| [`MVP_PLAN.md`](MVP_PLAN.md) | Product layout, internal MVP scope (Core + CRM + Time + dashboards), milestones and ETA | `[📝 Draft / RFC]` |
+| [`MVP_PLAN.md`](MVP_PLAN.md) | Product layout, internal MVP scope (Core + CRM + Time + dashboards), milestones and ETA | `[📋 Approved]` |
+| [`CORE_PLAN.md`](CORE_PLAN.md) | M1 core platform: shell, app home, settings, users and roles, shared views | `[🟡 In progress]` |
 | [`MASTER_PLAN.md`](MASTER_PLAN.md) | Phased roadmap from scaffold to sellable product | `[📝 Draft / RFC]` |
 | [`MODULE_PLAN_TEMPLATE.md`](MODULE_PLAN_TEMPLATE.md) | Template for a new module plan | Template |
 | [`checklist.md`](checklist.md) | Execution status of every plan | Active tracking |

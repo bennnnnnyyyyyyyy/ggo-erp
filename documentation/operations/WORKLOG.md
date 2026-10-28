@@ -10,6 +10,16 @@ gets an entry with these four headings:
 
 ---
 
+## 2026-10-28 — Organization renamed to GGO; local API started
+
+**Objective.** The company is GGO (Gulf Global Outsourcing), not "GG Outsourcing". Ben's sign-in also showed "Failed to fetch".
+
+**Actions Completed.** At Ben's request, PATCHed `organizations` row `6e5ca4f3-…8f8f` to `name = 'GGO'`, `slug = 'ggo'` over the REST API, and inserted an `organization.updated` row in `audit_log` with before/after values. Replaced "GG Outsourcing" with "GGO" in `agents.md`, `README.md`, `sql/README.md`, both ADRs, the discovery questions, `MODULE_PLAN_TEMPLATE.md` and `research/README.md` (older worklog entries left as history). "Failed to fetch" was the local API not running (nothing on port 8787); started it with `npm run dev:api`.
+
+**Database / System Result.** Project `plhuuhcpvlytozyedamt`: organization now GGO / `ggo`, same id; audit row id 2. No schema change.
+
+**Safety Status.** Single-row update to a verified target plus one append-only audit insert. Both apps must be running locally (`npm run dev:api` and `npm run dev:web`) for sign-in to work.
+
 ## 2026-10-28 — Owner account email corrected
 
 **Objective.** The owner account was created as `bd@prime-ad.com`, which is not a real mailbox, so it could never receive a reset link. Ben asked for it to be deleted or changed to `ben@prime-ad.com`.

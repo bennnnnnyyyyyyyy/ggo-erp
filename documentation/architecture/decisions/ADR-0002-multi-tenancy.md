@@ -1,6 +1,6 @@
 # ADR-0002: Multi-tenancy model
 
-**Status:** Proposed (awaiting Ben's approval)
+**Status:** Accepted 2026-10-28 (Ben, with the MVP plan)
 **Date:** 2026-10-27
 **Deciders:** Ben Arthur
 

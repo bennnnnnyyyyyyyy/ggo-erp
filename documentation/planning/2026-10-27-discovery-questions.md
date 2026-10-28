@@ -1,6 +1,7 @@
 # Discovery Questions: ERP Layout and Scope
 
 **Status:** Partly answered (2026-10-27). Turned into [`plans/MVP_PLAN.md`](../plans/MVP_PLAN.md); blanks there are filled with defaults (section 2) · **Created:** 2026-10-27
+**Note (2026-10-28):** DME Desk Prospector was only the source of the agent instructions and skills; the ERP does not follow its design. Mentions of it below are part of the original questions.
 **Purpose:** settle how the ERP is laid out (product, modules, screens, code, hosting) before
 building anything. Answers here become `plans/MASTER_PLAN.md` and the ADRs.
 
