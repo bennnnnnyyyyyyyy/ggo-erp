@@ -10,6 +10,16 @@ gets an entry with these four headings:
 
 ---
 
+## 2026-10-28 — sql/002 applied
+
+**Objective.** Enable inviting people from Settings → Users.
+
+**Actions Completed.** Ben ran `sql/002_core_user_lookup.sql` in the SQL Editor.
+
+**Database / System Result.** Project `plhuuhcpvlytozyedamt`: `public.find_auth_user_id(text)` created. Verification query 2: anon false, authenticated false, service_role true (as intended). `sql/002` status: **Run (live)**.
+
+**Safety Status.** Function only; no tables or data touched. Ben also saved settings on Authentication → OAuth Server (the page that makes Supabase an identity provider for other apps). The ERP does not use it; recommended turning it back off. Site URL is `http://localhost:5173`, which also covers invite and reset redirects locally.
+
 ## 2026-10-28 — MVP plan approved; M1 core platform, slice 1
 
 **Objective.** Ben approved the MVP plan and asked for M1 to start. He also clarified that DME Desk Prospector only supplied the agent instructions and skills, not the design.

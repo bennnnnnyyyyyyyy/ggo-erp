@@ -23,7 +23,7 @@
   - **Remaining:** Odoo, HubSpot and Clockify teardowns; staging + production Supabase projects.
 - [ ] **[CORE_PLAN.md](CORE_PLAN.md) M1: Core platform**
   - **Slice 1 built locally (2026-10-28):** shell with app home and per-app sidebar, Settings → General / Users / Audit log, invites with copyable link, role changes, disable/enable, shared List view, password reset, invite acceptance, optional Google button.
-  - **Waiting on Ben:** run `sql/002`, add redirect URL in Supabase Auth, browser check.
+  - **Waiting on Ben:** browser check. `sql/002` run 2026-10-28.
   - **Slice 2 remaining:** Record page + activity timeline, Board view, Dashboard cards, global search, logo upload, notifications, two-org isolation test.
 
 ## Migrations
