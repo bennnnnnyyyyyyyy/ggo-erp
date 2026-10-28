@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { authLinkError, supabase, supabaseConfigured } from '../lib/supabase';
+import { authLinkError, googleSignInEnabled, supabase, supabaseConfigured } from '../lib/supabase';
 
 export function SignIn() {
   const [mode, setMode] = useState<'sign-in' | 'forgot'>('sign-in');
@@ -13,6 +13,12 @@ export function SignIn() {
     setMode(next);
     setError(null);
     setNotice(null);
+  }
+
+  async function signInWithGoogle() {
+    setError(null);
+    const { error } = await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin } });
+    if (error) setError(error.message);
   }
 
   async function submit(e: FormEvent) {
@@ -41,6 +47,14 @@ export function SignIn() {
             Supabase isn't configured. Add SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY to the .env at the repo root, then
             restart the web app.
           </p>
+        )}
+        {mode === 'sign-in' && googleSignInEnabled && (
+          <>
+            <button type="button" className="secondary" onClick={signInWithGoogle}>
+              Continue with Google
+            </button>
+            <div className="divider muted small">or</div>
+          </>
         )}
         <label>
           Email

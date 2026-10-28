@@ -14,6 +14,9 @@ export type Tenant = {
   orgId: string;
   orgName: string;
   orgSlug: string;
+  defaultCurrency: string;
+  timezone: string;
+  dateFormat: string;
   role: Role;
   permissions: string[];
   modules: string[];

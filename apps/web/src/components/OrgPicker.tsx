@@ -17,8 +17,13 @@ export function OrgPicker({ onPick }: { onPick: (orgId: string) => void }) {
       .then(({ data, error }) => {
         if (error) return setError(error.message);
         const rows = (data ?? []) as unknown as { organizations: OrgOption | null }[];
-        setOrgs(rows.flatMap((r) => (r.organizations ? [r.organizations] : [])));
+        const list = rows.flatMap((r) => (r.organizations ? [r.organizations] : []));
+        // Most people belong to one organization: open it instead of asking.
+        if (list.length === 1 && list[0]) onPick(list[0].id);
+        else setOrgs(list);
       });
+    // Runs once on mount; `onPick` is stable for this purpose.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (error) return <main className="center"><p className="error">{error}</p></main>;

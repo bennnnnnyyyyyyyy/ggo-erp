@@ -4,15 +4,27 @@ import type { AppEnv } from '../../env';
 import { db } from '../../lib/db';
 import { ok } from '../../lib/response';
 import { requirePermission } from '../../middleware/tenant';
+import { memberRoutes } from './memberRoutes';
+import { orgRoutes } from './org';
 
 export const coreRoutes = new Hono<AppEnv>();
+
+coreRoutes.route('/org', orgRoutes);
+coreRoutes.route('/members', memberRoutes);
 
 coreRoutes.get('/session', (c) => {
   const { user, tenant } = c.var;
   const session: SessionInfo = {
     userId: user.id,
     email: user.email,
-    org: { id: tenant.orgId, name: tenant.orgName, slug: tenant.orgSlug },
+    org: {
+      id: tenant.orgId,
+      name: tenant.orgName,
+      slug: tenant.orgSlug,
+      defaultCurrency: tenant.defaultCurrency,
+      timezone: tenant.timezone,
+      dateFormat: tenant.dateFormat,
+    },
     role: tenant.role,
     permissions: tenant.permissions,
     modules: tenant.modules,

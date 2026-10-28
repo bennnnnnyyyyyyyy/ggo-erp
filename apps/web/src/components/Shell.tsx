@@ -1,44 +1,119 @@
-import { useState } from 'react';
-import { MODULES, hasPermission } from '@ggo/shared';
-import { MODULE_PAGES, type ModulePage } from '../modules/registry';
+import { useEffect, useRef, useState } from 'react';
+import { Link, usePath } from '../lib/router';
+import { resolveRoute, visibleApps } from '../modules/registry';
+import { Home } from '../modules/core/Home';
 import { useSession } from '../session';
+
+function initials(email: string): string {
+  const name = email.split('@')[0] ?? '';
+  const bits = name.split(/[._-]+/).filter(Boolean);
+  return ((bits[0]?.[0] ?? '') + (bits[1]?.[0] ?? '')).toUpperCase() || name.slice(0, 2).toUpperCase();
+}
+
+function UserMenu({ onSwitchOrg, onSignOut }: { onSwitchOrg: () => void; onSignOut: () => void }) {
+  const session = useSession();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const close = (e: MouseEvent) => ref.current && !ref.current.contains(e.target as Node) && setOpen(false);
+    const esc = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
+    document.addEventListener('mousedown', close);
+    document.addEventListener('keydown', esc);
+    return () => {
+      document.removeEventListener('mousedown', close);
+      document.removeEventListener('keydown', esc);
+    };
+  }, [open]);
+
+  return (
+    <div className="user-menu" ref={ref}>
+      <button className="avatar" onClick={() => setOpen((o) => !o)} aria-haspopup="menu" aria-expanded={open}>
+        {initials(session.email)}
+      </button>
+      {open && (
+        <div className="menu" role="menu">
+          <div className="menu-head">
+            <div>{session.email}</div>
+            <div className="muted small">
+              {session.org?.name} · {session.role}
+            </div>
+          </div>
+          <button role="menuitem" className="menu-item" onClick={onSwitchOrg}>
+            Switch organization
+          </button>
+          <button role="menuitem" className="menu-item" onClick={onSignOut}>
+            Sign out
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function Shell({ onSwitchOrg, onSignOut }: { onSwitchOrg: () => void; onSignOut: () => void }) {
   const session = useSession();
-  const sections = MODULES.filter((m) => session.modules.includes(m.key)).map((m) => ({
-    module: m,
-    pages: (MODULE_PAGES[m.key] ?? []).filter((p) => !p.permission || hasPermission(session.permissions, p.permission)),
-  }));
-  const first = sections.flatMap((s) => s.pages)[0];
-  const [current, setCurrent] = useState<ModulePage | undefined>(first);
-  const Page = current?.component;
+  const path = usePath();
+  const apps = visibleApps(session);
+  const route = resolveRoute(path, apps);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  useEffect(() => setDrawerOpen(false), [path]);
+  useEffect(() => {
+    const where = route?.page ? `${route.page.label} · ${route.app.name}` : route?.app.name;
+    document.title = [where, session.org?.name].filter(Boolean).join(' · ') || 'ERP';
+  }, [route, session.org?.name]);
+
+  const atHome = path === '/' || path === '';
+  const Page = route?.page?.component;
 
   return (
-    <div className="shell">
-      <nav className="sidebar">
-        <div className="org">{session.org?.name}</div>
-        {sections.map(({ module, pages }) =>
-          pages.length === 0 ? null : (
-            <div key={module.key} className="nav-section">
-              <div className="nav-heading">{module.name}</div>
-              {pages.map((p) => (
-                <button
-                  key={p.path}
-                  className={p === current ? 'nav-item active' : 'nav-item'}
-                  onClick={() => setCurrent(p)}
-                >
-                  {p.label}
-                </button>
-              ))}
-            </div>
-          ),
+    <div className={route ? 'shell with-sidebar' : 'shell'}>
+      <header className="topbar">
+        {route && (
+          <button className="icon-btn drawer-toggle" onClick={() => setDrawerOpen((o) => !o)} aria-label="Menu">
+            ☰
+          </button>
         )}
-        <div className="nav-footer">
-          <button className="secondary" onClick={onSwitchOrg}>Switch organization</button>
-          <button className="secondary" onClick={onSignOut}>Sign out</button>
-        </div>
-      </nav>
-      <main className="content">{Page ? <Page /> : <p className="muted">Nothing to show yet.</p>}</main>
+        <Link to="/" className={atHome ? 'apps-btn active' : 'apps-btn'} aria-label="All apps">
+          <span className="grid-icon" aria-hidden="true" />
+          Apps
+        </Link>
+        <span className="topbar-org">{session.org?.name}</span>
+        {route && <span className="topbar-app">/ {route.app.name}</span>}
+        <span className="spacer" />
+        <UserMenu onSwitchOrg={onSwitchOrg} onSignOut={onSignOut} />
+      </header>
+
+      {route && (
+        <nav className={drawerOpen ? 'sidebar open' : 'sidebar'} aria-label={`${route.app.name} pages`}>
+          <div className="nav-heading">{route.app.name}</div>
+          {route.app.pages.map((p) => {
+            const to = route.app.basePath + p.path;
+            return (
+              <Link key={to} to={to} className={p === route.page ? 'nav-item active' : 'nav-item'}>
+                {p.label}
+              </Link>
+            );
+          })}
+        </nav>
+      )}
+
+      <main className="content">
+        {atHome ? (
+          <Home apps={apps} />
+        ) : Page ? (
+          <Page />
+        ) : (
+          <section>
+            <h1>Page not found</h1>
+            <p className="muted">
+              This page doesn't exist or you don't have access to it. <Link to="/">Back to apps</Link>
+            </p>
+          </section>
+        )}
+      </main>
     </div>
   );
 }

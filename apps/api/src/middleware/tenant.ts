@@ -6,7 +6,15 @@ import { HttpError } from '../lib/errors';
 
 type MembershipRow = {
   role: Role;
-  organizations: { id: string; name: string; slug: string; deleted_at: string | null } | null;
+  organizations: {
+    id: string;
+    name: string;
+    slug: string;
+    default_currency: string;
+    timezone: string;
+    settings: Record<string, unknown> | null;
+    deleted_at: string | null;
+  } | null;
 };
 
 /**
@@ -20,7 +28,7 @@ export const requireTenant = createMiddleware<AppEnv>(async (c, next) => {
   const client = db(c.env);
   const { data: membership, error } = await client
     .from('memberships')
-    .select('role, organizations!inner(id, name, slug, deleted_at)')
+    .select('role, organizations!inner(id, name, slug, default_currency, timezone, settings, deleted_at)')
     .eq('org_id', orgId)
     .eq('user_id', c.var.user.id)
     .is('disabled_at', null)
@@ -45,6 +53,9 @@ export const requireTenant = createMiddleware<AppEnv>(async (c, next) => {
     orgId: org.id,
     orgName: org.name,
     orgSlug: org.slug,
+    defaultCurrency: org.default_currency,
+    timezone: org.timezone,
+    dateFormat: typeof org.settings?.date_format === 'string' ? org.settings.date_format : 'DD/MM/YYYY',
     role: membership.role,
     permissions: defaultPermissionsFor(membership.role),
     modules: [...modules],

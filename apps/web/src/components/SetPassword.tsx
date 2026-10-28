@@ -1,9 +1,9 @@
 import { useState, type FormEvent } from 'react';
 import { supabase } from '../lib/supabase';
 
-// Shown after the user follows a password-reset email link. Supabase has already signed them in
+// Shown after the user follows a password-reset or invite link. Supabase has already signed them in
 // with a short-lived recovery session; this sets the new password on that session.
-export function SetPassword({ onDone }: { onDone: () => void }) {
+export function SetPassword({ invited = false, onDone }: { invited?: boolean; onDone: () => void }) {
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -26,7 +26,7 @@ export function SetPassword({ onDone }: { onDone: () => void }) {
   return (
     <main className="center">
       <form className="card stack" onSubmit={submit}>
-        <h1>Set a new password</h1>
+        <h1>{invited ? 'Welcome! Choose a password' : 'Set a new password'}</h1>
         <label>
           New password
           <input
