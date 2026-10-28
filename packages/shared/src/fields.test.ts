@@ -64,6 +64,8 @@ describe('module member grants', () => {
     const perms = defaultPermissionsFor('member');
     expect(perms).toContain('crm.records.manage');
     expect(perms).not.toContain('crm.settings.manage');
+    expect(perms).not.toContain('crm.records.delete');
+    expect(defaultPermissionsFor('admin')).toContain('crm.records.delete');
     expect(defaultPermissionsFor('viewer')).not.toContain('crm.records.manage');
   });
 });

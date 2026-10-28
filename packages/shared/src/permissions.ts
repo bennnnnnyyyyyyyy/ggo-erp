@@ -10,7 +10,7 @@ export function defaultPermissionsFor(role: Role): string[] {
     case 'admin':
       return all;
     case 'member':
-      return [...all.filter((p) => !p.endsWith('.manage')), ...MODULES.flatMap((m) => m.memberGrants ?? [])];
+      return [...all.filter((p) => p.endsWith('.read')), ...MODULES.flatMap((m) => m.memberGrants ?? [])];
     case 'viewer':
       return all.filter((p) => p.endsWith('.read'));
   }

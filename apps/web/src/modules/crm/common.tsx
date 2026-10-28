@@ -7,6 +7,10 @@ import { api } from '../../lib/api';
 import { navigate } from '../../lib/router';
 import { useSession } from '../../session';
 
+export function useCanDeleteCrm(): boolean {
+  return hasPermission(useSession().permissions, 'crm.records.delete');
+}
+
 export function useCanManageCrm(): boolean {
   return hasPermission(useSession().permissions, 'crm.records.manage');
 }

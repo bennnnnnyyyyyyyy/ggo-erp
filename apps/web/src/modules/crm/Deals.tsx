@@ -9,7 +9,7 @@ import { formatDate } from '../../lib/format';
 import { Link, navigate, useParam } from '../../lib/router';
 import { useLoad } from '../../lib/useLoad';
 import { useSession } from '../../session';
-import { Loading, NewRecordButton, PageHeader, useCanManageCrm } from './common';
+import { Loading, NewRecordButton, PageHeader, useCanDeleteCrm, useCanManageCrm } from './common';
 import { crmLookups, useCrmData } from './data';
 
 /** "AED 12,000 + USD 3,000": totals per currency, never mixed. */
@@ -172,6 +172,7 @@ export function DealsList() {
 export function DealPage() {
   const id = useParam('id');
   const canManage = useCanManageCrm();
+  const canDelete = useCanDeleteCrm();
   const data = useCrmData();
   const deal = useLoad(() => api<Deal>(`/v1/crm/deals/${id}`));
   const [error, setError] = useState<string | null>(null);
@@ -218,6 +219,7 @@ export function DealPage() {
         back={{ label: 'Deals', to: '/crm' }}
         noun="deal"
         canManage={canManage}
+        canDelete={canDelete}
         onChanged={(r) => deal.setData(r as unknown as Deal)}
         headerExtra={
           canManage && (
