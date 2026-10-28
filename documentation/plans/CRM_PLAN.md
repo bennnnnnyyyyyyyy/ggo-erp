@@ -58,6 +58,7 @@ Moving a deal into a won or lost stage sets `closed_at`; moving it back to an op
 |---|---|---|
 | `crm.records.read` | all | See companies, contacts, deals, their timelines |
 | `crm.records.manage` | owner, admin, member | Create, edit, delete records; log activities |
+| `crm.records.delete` | owner, admin | Delete records (Ben, 2026-10-28) |
 | `crm.settings.manage` | owner, admin | Edit pipeline stages |
 
 Members get `crm.records.manage` because sales staff must be able to work their deals. That is

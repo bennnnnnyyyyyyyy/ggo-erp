@@ -11,7 +11,7 @@ export type ModuleManifest = {
   dependsOn: string[];
   /** Permission keys this module defines, as `<module>.<action>`. */
   permissions: string[];
-  /** `.manage` keys the built-in member role also gets (members otherwise get read-only keys). */
+  /** Extra keys the built-in member role gets (members otherwise get only `.read` keys). */
   memberGrants?: string[];
   /** Suite on the home screen and in Settings → Apps. */
   suite: 'Core' | 'Sales & Clients' | 'People' | 'Work' | 'Finance' | 'Operations';
@@ -33,7 +33,7 @@ export const MODULES: readonly ModuleManifest[] = [
     description: 'Companies, contacts, deals and the sales pipeline.',
     core: false,
     dependsOn: [],
-    permissions: ['crm.records.read', 'crm.records.manage', 'crm.settings.manage'],
+    permissions: ['crm.records.read', 'crm.records.manage', 'crm.records.delete', 'crm.settings.manage'],
     memberGrants: ['crm.records.manage'],
     suite: 'Sales & Clients',
   },

@@ -23,6 +23,7 @@ export function RecordPage({
   back,
   noun,
   canManage,
+  canDelete = canManage,
   headerExtra,
   related,
   onChanged,
@@ -38,6 +39,8 @@ export function RecordPage({
   back: { label: string; to: string };
   noun: string;
   canManage: boolean;
+  /** Defaults to canManage. */
+  canDelete?: boolean;
   headerExtra?: ReactNode;
   related?: ReactNode;
   onChanged: (record: RecordValues & { id: string }) => void;
@@ -90,13 +93,11 @@ export function RecordPage({
           </div>
           <span className="spacer" />
           {headerExtra}
-          {canManage && (
-            <>
-              <button onClick={() => setEditing(true)}>Edit</button>
-              <button className="secondary" onClick={remove}>
-                Delete
-              </button>
-            </>
+          {canManage && <button onClick={() => setEditing(true)}>Edit</button>}
+          {canDelete && (
+            <button className="secondary" onClick={remove}>
+              Delete
+            </button>
           )}
         </header>
         {error && <p className="error">{error}</p>}

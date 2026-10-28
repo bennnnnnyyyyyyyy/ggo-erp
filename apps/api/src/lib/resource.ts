@@ -27,6 +27,8 @@ export type ResourceConfig = {
   fields: readonly FieldDef[];
   readPermission: string;
   managePermission: string;
+  /** Defaults to managePermission. */
+  deletePermission?: string;
   /** `ref` field targets: resource name → table, same module. */
   refs?: Record<string, string>;
   /** Query parameters that filter the list: param → column. */
@@ -194,7 +196,7 @@ export function resourceRoutes(cfg: ResourceConfig): Hono<AppEnv> {
     return ok(c, record);
   });
 
-  r.delete('/:id', requirePermission(cfg.managePermission), async (c) => {
+  r.delete('/:id', requirePermission(cfg.deletePermission ?? cfg.managePermission), async (c) => {
     const before = await loadRow(c, cfg, c.req.param('id'));
     const { error } = await db(c.env)
       .from(cfg.table)

@@ -10,6 +10,16 @@ gets an entry with these four headings:
 
 ---
 
+## 2026-10-28 — First answers from INPUT_NEEDED applied
+
+**Objective.** Act on Ben's answers in `documentation/planning/INPUT_NEEDED.md`.
+
+**Actions Completed.** Q6 (admins delete): new permission `crm.records.delete` (owner/admin); built-in members now get only `.read` keys plus a module's `memberGrants` (`packages/shared/src/permissions.ts`); `lib/resource.ts` takes an optional `deletePermission`; CRM record pages hide Delete without it. Q8: read GGO's existing time app and wrote `documentation/research/ggo-time-management/NOTES.md` (paid/unpaid status segments, GPS, shifts, departments, weekly approvals, overtime rules) as input for M3. Recorded Q2, Q3, Q7, Q10 and clarified Q4, Q11, Q12 in the file; CRM_PLAN permissions table updated.
+
+**Database / System Result.** None.
+
+**Safety Status.** `npm run typecheck` clean; `npm test` passing (shared 12, api 11). Not browser-tested.
+
 ## 2026-10-28 — CRM (M2) and M1 slice 2 building blocks
 
 **Objective.** Ben asked for a working MVP and to keep building, parking decisions. Built the CRM with the shared record page, timeline, board and search it needs.

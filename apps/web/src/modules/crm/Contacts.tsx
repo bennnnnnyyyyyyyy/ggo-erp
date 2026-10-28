@@ -7,7 +7,7 @@ import { formatDate } from '../../lib/format';
 import { Link, useParam } from '../../lib/router';
 import { useLoad } from '../../lib/useLoad';
 import { useSession } from '../../session';
-import { Loading, NewRecordButton, PageHeader, useCanManageCrm } from './common';
+import { Loading, NewRecordButton, PageHeader, useCanDeleteCrm, useCanManageCrm } from './common';
 import { crmLookups, useCrmData } from './data';
 
 export function ContactsList() {
@@ -53,6 +53,7 @@ export function ContactPage() {
   const id = useParam('id');
   const session = useSession();
   const canManage = useCanManageCrm();
+  const canDelete = useCanDeleteCrm();
   const data = useCrmData();
   const contact = useLoad(() => api<Contact>(`/v1/crm/contacts/${id}`));
   const deals = useLoad(() => api<Deal[]>(`/v1/crm/deals?contactId=${id}`));
@@ -82,6 +83,7 @@ export function ContactPage() {
       back={{ label: 'Contacts', to: '/crm/contacts' }}
       noun="contact"
       canManage={canManage}
+      canDelete={canDelete}
       onChanged={(r) => contact.setData(r as unknown as Contact)}
       related={
         <section className="related">
