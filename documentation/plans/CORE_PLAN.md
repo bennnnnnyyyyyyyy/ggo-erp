@@ -53,7 +53,7 @@ has an account (for example a member of another organization).
 |---|---|---|
 | `core.org.read` | all | See org settings |
 | `core.org.manage` | owner, admin | Change org settings |
-| `core.users.read` | owner, admin, member | See the member list |
+| `core.users.read` | all | See the member list |
 | `core.users.manage` | owner, admin | Invite, change roles, disable |
 | `core.audit.read` | all | See the audit log |
 

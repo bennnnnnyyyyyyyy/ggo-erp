@@ -20,7 +20,7 @@ export const MODULES: readonly ModuleManifest[] = [
     description: 'Organization, users, roles, settings and the audit log.',
     core: true,
     dependsOn: [],
-    permissions: ['core.org.manage', 'core.users.read', 'core.users.manage', 'core.audit.read'],
+    permissions: ['core.org.read', 'core.org.manage', 'core.users.read', 'core.users.manage', 'core.audit.read'],
   },
 ];
 
