@@ -1,6 +1,6 @@
 # GGO ERP
 
-A modular, multi-tenant ERP. Built for internal use at GG Outsourcing first, designed to be
+A modular, multi-tenant ERP. Built for internal use at GGO (Gulf Global Outsourcing) first, designed to be
 sold to other companies.
 
 **Status:** scaffold. Nothing deployed yet. See the [worklog](documentation/operations/WORKLOG.md).

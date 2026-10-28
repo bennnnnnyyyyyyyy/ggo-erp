@@ -6,7 +6,7 @@
 
 ## Context
 
-GG Outsourcing is customer #1. Future customers must be fully isolated from each other, and
+GGO is customer #1. Future customers must be fully isolated from each other, and
 retrofitting tenancy into an ERP after the fact is one of the most expensive rewrites there is.
 
 ## Decision

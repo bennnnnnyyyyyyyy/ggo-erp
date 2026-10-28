@@ -6,7 +6,7 @@
 
 ## Context
 
-The ERP starts as an internal tool for GG Outsourcing and must be sellable later: many
+The ERP starts as an internal tool for GGO and must be sellable later: many
 customers, per-customer modules, and a codebase several people and AI agents can work on without
 drift. The team already runs DME Desk Prospector on a Cloudflare Worker (Hono) + Supabase +
 static frontend, so that operating knowledge (Wrangler, Supabase SQL Editor migrations, RLS)

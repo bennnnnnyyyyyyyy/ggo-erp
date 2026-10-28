@@ -23,7 +23,7 @@ project, and the run is then logged in
 
 | File | Purpose | Status |
 |---|---|---|
-| `001_tenancy_core.sql` | `organizations`, `memberships`, `org_modules`, append-only `audit_log`, `is_org_member()`, RLS, `bootstrap_organization()` | **Run 2026-10-27** on `plhuuhcpvlytozyedamt` (by Ben, SQL Editor); GG Outsourcing bootstrapped |
+| `001_tenancy_core.sql` | `organizations`, `memberships`, `org_modules`, append-only `audit_log`, `is_org_member()`, RLS, `bootstrap_organization()` | **Run 2026-10-27** on `plhuuhcpvlytozyedamt` (by Ben, SQL Editor); GGO bootstrapped (renamed from GG Outsourcing 2026-10-28) |
 
 ## After 001: creating the first organization
 
@@ -31,7 +31,7 @@ project, and the run is then logged in
 2. In the SQL Editor:
 
    ```sql
-   select public.bootstrap_organization('GG Outsourcing', 'gg-outsourcing', '<owner email>');
+   select public.bootstrap_organization('GGO', 'ggo', '<owner email>');
    ```
 
 3. Log the run in the worklog.

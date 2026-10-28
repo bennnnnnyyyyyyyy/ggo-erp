@@ -69,7 +69,7 @@ Unit tests for rules; API tests including **a second org cannot read or change t
 1. Run `sql/NNN_…` and its verification queries; log in the worklog.
 2. Deploy the API.
 3. Deploy the web app.
-4. Enable for GG Outsourcing: `insert into org_modules (org_id, module_key) values (…, '<key>');`
+4. Enable for GGO: `insert into org_modules (org_id, module_key) values (…, '<key>');`
 5. Manual check in the browser (URL + steps for the user).
 
 ## 11. Open questions
